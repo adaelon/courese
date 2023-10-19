@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zjx.courese.score.dao.CourseRatingsDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.zjx.courese.score.entity.CourseRatingsEntity" id="courseRatingsMap">
+        <result property="ratingId" column="rating_id"/>
+        <result property="courseId" column="course_id"/>
+        <result property="raterId" column="rater_id"/>
+        <result property="ratingValue" column="rating_value"/>
+        <result property="feedback" column="feedback"/>
+        <result property="ratingDate" column="rating_date"/>
+    </resultMap>
+
+
+</mapper>

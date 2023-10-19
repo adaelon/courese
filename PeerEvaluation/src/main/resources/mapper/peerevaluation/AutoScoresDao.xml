@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zjx.courese.peerevaluation.dao.AutoScoresDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.zjx.courese.peerevaluation.entity.AutoScoresEntity" id="autoScoresMap">
+        <result property="autoScoreId" column="auto_score_id"/>
+        <result property="submissionId" column="submission_id"/>
+        <result property="scoreAlgorithm" column="score_algorithm"/>
+        <result property="score" column="score"/>
+    </resultMap>
+
+
+</mapper>

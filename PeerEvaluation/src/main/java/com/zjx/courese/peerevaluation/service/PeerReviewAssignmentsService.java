@@ -1,0 +1,20 @@
+package com.zjx.courese.peerevaluation.service;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.zjx.common.utils.PageUtils;
+import com.zjx.courese.peerevaluation.entity.PeerReviewAssignmentsEntity;
+
+import java.util.Map;
+
+/**
+ * 
+ *
+ * @author zjx
+ * @email zjxlijo@gmail.com
+ * @date 2023-10-19 20:06:29
+ */
+public interface PeerReviewAssignmentsService extends IService<PeerReviewAssignmentsEntity> {
+
+    PageUtils queryPage(Map<String, Object> params);
+}
+

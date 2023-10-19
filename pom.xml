@@ -16,6 +16,9 @@
 		<module>Score</module>
 		<module>work</module>
 		<module>user</module>
+		<module>renren-fast-2</module>
+		<module>renren-generator</module>
+		<module>common</module>
 	</modules>
 
 </project>

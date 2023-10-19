@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <option name="BUILD_PROCESS_ADDITIONAL_VM_OPTIONS" value="-Djps.track.ap.dependencies=false" />
     <annotationProcessing>
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="course" />
         <module name="PeerEvaluation" />
         <module name="Score" />
-        <module name="user" />
+        <module name="common" />
         <module name="work" />
+        <module name="course" />
+        <module name="renren-fast" />
+        <module name="user" />
+        <module name="renren-generator" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="courese" target="1.5" />
-      <module name="course" target="17" />
-      <module name="PeerEvaluation" target="17" />
-      <module name="Score" target="17" />
-      <module name="user" target="17" />
-      <module name="work" target="17" />
-    </bytecodeTargetLevel>
+    <bytecodeTargetLevel target="18" />
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="PeerEvaluation" options="-parameters" />
       <module name="Score" options="-parameters" />
+      <module name="common" options="" />
       <module name="courese" options="-parameters" />
       <module name="course" options="-parameters" />
+      <module name="renren-fast" options="-parameters" />
+      <module name="renren-generator" options="-parameters" />
       <module name="user" options="-parameters" />
       <module name="work" options="-parameters" />
     </option>

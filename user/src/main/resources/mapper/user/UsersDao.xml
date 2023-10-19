@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zjx.courese.user.dao.UsersDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.zjx.courese.user.entity.UsersEntity" id="usersMap">
+        <result property="userId" column="user_id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="email" column="email"/>
+        <result property="intro" column="intro"/>
+        <result property="profilePicture" column="profile_picture"/>
+        <result property="dateRegistered" column="date_registered"/>
+        <result property="lastLogin" column="last_login"/>
+    </resultMap>
+
+
+</mapper>
