@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.zjx.courese.user.feign.CourseFeignService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,6 +32,19 @@ public class UsersController {
     @Autowired
     private UsersService usersService;
 
+    @Autowired
+    CourseFeignService courseFeignService;
+    @RequestMapping("/courses")
+    public R test(){
+        UsersEntity usersEntity=new UsersEntity();
+        usersEntity.setUsername("ada");
+
+        R usercourse= courseFeignService.userCourse();
+
+
+        return R.ok().put("user",usersEntity).put("course",usercourse.get("course"));
+
+    }
     /**
      * 列表
      */

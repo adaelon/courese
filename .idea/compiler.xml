@@ -14,6 +14,7 @@
         <module name="course" />
         <module name="renren-fast" />
         <module name="user" />
+        <module name="gateway" />
         <module name="renren-generator" />
       </profile>
     </annotationProcessing>
@@ -26,6 +27,7 @@
       <module name="common" options="" />
       <module name="courese" options="-parameters" />
       <module name="course" options="-parameters" />
+      <module name="gateway" options="-parameters" />
       <module name="renren-fast" options="-parameters" />
       <module name="renren-generator" options="-parameters" />
       <module name="user" options="-parameters" />

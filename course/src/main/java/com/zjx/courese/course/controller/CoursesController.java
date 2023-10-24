@@ -5,17 +5,16 @@ import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.web.bind.annotation.*;
 
 import com.zjx.courese.course.entity.CoursesEntity;
 import com.zjx.courese.course.service.CoursesService;
 import com.zjx.common.utils.PageUtils;
 import com.zjx.common.utils.R;
 
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 
 /**
@@ -26,10 +25,28 @@ import com.zjx.common.utils.R;
  * @date 2023-10-19 19:53:45
  */
 @RestController
+@RefreshScope
 @RequestMapping("course/courses")
 public class CoursesController {
     @Autowired
     private CoursesService coursesService;
+
+    @Value("${course.user.name}")
+    private String name;
+
+    @Value("${course.user.age}")
+    private String age;
+    @RequestMapping("/test")
+    public R test(){
+        return R.ok().put("name",name).put("age",age);
+    }
+
+    @RequestMapping("/user/list")
+    public R userCourse(){
+        CoursesEntity  coursesEntity=new CoursesEntity();
+        coursesEntity.setCourseName("math");
+        return R.ok().put("course",Arrays.asList(coursesEntity));
+    }
 
     /**
      * 列表
