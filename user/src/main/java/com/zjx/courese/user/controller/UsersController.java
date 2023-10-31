@@ -45,6 +45,7 @@ public class UsersController {
         return R.ok().put("user",usersEntity).put("course",usercourse.get("course"));
 
     }
+
     /**
      * 列表
      */

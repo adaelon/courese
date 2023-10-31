@@ -63,7 +63,7 @@ public class CoursesController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{courseId}")
+    @RequestMapping(value = "/info/{courseId}",method = RequestMethod.GET)
     //@RequiresPermissions("course:courses:info")
     public R info(@PathVariable("courseId") Integer courseId){
 		CoursesEntity courses = coursesService.getById(courseId);
