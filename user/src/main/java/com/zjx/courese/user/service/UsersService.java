@@ -16,5 +16,7 @@ import java.util.Map;
 public interface UsersService extends IService<UsersEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    UsersEntity getByName(String username);
 }
 

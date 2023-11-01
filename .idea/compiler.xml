@@ -11,6 +11,7 @@
         <module name="Score" />
         <module name="common" />
         <module name="work" />
+        <module name="auth-server" />
         <module name="course" />
         <module name="renren-fast" />
         <module name="user" />
@@ -24,6 +25,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="PeerEvaluation" options="-parameters" />
       <module name="Score" options="-parameters" />
+      <module name="auth-server" options="-parameters" />
       <module name="common" options="" />
       <module name="courese" options="-parameters" />
       <module name="course" options="-parameters" />

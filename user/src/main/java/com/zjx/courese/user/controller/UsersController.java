@@ -6,6 +6,7 @@ import java.util.Map;
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.zjx.courese.user.feign.CourseFeignService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,7 @@ import com.zjx.common.utils.R;
  * @date 2023-10-20 10:18:17
  */
 @RestController
+@RefreshScope
 @RequestMapping("user/users")
 public class UsersController {
     @Autowired
@@ -44,6 +46,13 @@ public class UsersController {
 
         return R.ok().put("user",usersEntity).put("course",usercourse.get("course"));
 
+    }
+
+
+    @RequestMapping("/find/{username}")
+    public R findUserByName(@PathVariable("username") String username){
+        UsersEntity entity = usersService.getByName(username);
+        return R.ok().put("user",entity);
     }
 
     /**
@@ -68,6 +77,7 @@ public class UsersController {
 
         return R.ok().put("users", users);
     }
+
 
     /**
      * 保存

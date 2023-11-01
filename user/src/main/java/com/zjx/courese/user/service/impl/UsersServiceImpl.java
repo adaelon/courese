@@ -26,4 +26,17 @@ public class UsersServiceImpl extends ServiceImpl<UsersDao, UsersEntity> impleme
         return new PageUtils(page);
     }
 
+    @Override
+    public UsersEntity getByName(String username) {
+        UsersDao usersDao = this.baseMapper;
+        UsersEntity usersEntity = usersDao.selectOne(new QueryWrapper<UsersEntity>().eq("username",username));
+        if(usersEntity==null){
+            return  null;
+        }else {
+            return usersEntity;
+        }
+
+
+    }
+
 }
