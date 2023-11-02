@@ -2,17 +2,17 @@ package com.zjx.courese.authserver.utils;
 
 
 import com.zjx.courese.authserver.bean.ComUser;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
 @Data
 @Component
-public class JwtUtil {
+public class JwtUtils {
+
 
     //    private long expire;
 //    private static final String secret = "admin";
@@ -53,6 +53,5 @@ public class JwtUtil {
     public static boolean isTokenExpired(Claims claims) {
         return claims.getExpiration().before(new Date());
     }
-
 }
 

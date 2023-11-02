@@ -1,17 +1,21 @@
 package com.zjx.courese.authserver.sec.filter;
 
 
+
+
+import cn.hutool.core.util.StrUtil;
+
 import com.alibaba.fastjson.JSON;
-;
 import com.zjx.courese.authserver.bean.ComUser;
-import com.zjx.courese.authserver.utils.JwtUtil;
-import com.zjx.courese.authserver.utils.RedisUtils;
+import com.zjx.courese.authserver.utils.JwtUtils;
+import com.zjx.courese.authserver.utils.RedisUtil;
 import io.jsonwebtoken.Claims;
-import lombok.extern.slf4j.Slf4j;
+import io.jsonwebtoken.JwtException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.annotation.Resource;
 import javax.servlet.FilterChain;
@@ -20,33 +24,43 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Component
-@Slf4j
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
+    @Autowired
+    JwtUtils jwtUtils;
     @Resource
-    RedisUtils redisUtils;
+    RedisUtil redisUtils;
 
-    public JwtAuthenticationFilter() {
+
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
+        super(authenticationManager);
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // 从请求头或请求参数中获取JWT token
-        String token = request.getHeader("token");
-        try {
-            Claims claimByToken = JwtUtil.getClaimByToken(token);
-            assert claimByToken != null;
-            String tem = JSON.toJSONString(claimByToken.get("user"));
-            ComUser user = JSON.parseObject(tem, ComUser.class);
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                    redisUtils.get("login" + user.getUserId()), null, user.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-        } catch (Exception e) {
-            // 验证失败，可以进行一些处理
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            log.error(e.getMessage());
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+
+        //String jwt = request.getHeader(jwtUtils.getHeader());
+        String jwt = request.getHeader("Authorization");
+        if (StrUtil.isBlankOrUndefined(jwt)) {
+            chain.doFilter(request, response);
+            return;
         }
-        filterChain.doFilter(request, response);
+
+        Claims claim = jwtUtils.getClaimByToken(jwt);
+        if (claim == null) {
+            throw new JwtException("token 异常");
+        }
+        if (jwtUtils.isTokenExpired(claim)) {
+            throw new JwtException("token已过期");
+        }
+        String tem = JSON.toJSONString(claim.get("user"));
+        ComUser user = JSON.parseObject(tem, ComUser.class);
+
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                redisUtils.get("login:" + user.getUserId()), null, user.getAuthorities());
+
+        SecurityContextHolder.getContext().setAuthentication( authenticationToken);
+
+        chain.doFilter(request, response);
     }
 }
