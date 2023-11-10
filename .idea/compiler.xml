@@ -3,6 +3,7 @@
   <component name="CompilerConfiguration">
     <option name="BUILD_PROCESS_ADDITIONAL_VM_OPTIONS" value="-Djps.track.ap.dependencies=false" />
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -11,7 +12,6 @@
         <module name="Score" />
         <module name="common" />
         <module name="work" />
-        <module name="auth-server" />
         <module name="course" />
         <module name="renren-fast" />
         <module name="user" />
@@ -19,15 +19,14 @@
         <module name="renren-generator" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="18" />
+    <bytecodeTargetLevel target="17" />
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="PeerEvaluation" options="-parameters" />
       <module name="Score" options="-parameters" />
-      <module name="auth-server" options="-parameters" />
       <module name="common" options="" />
-      <module name="courese" options="-parameters" />
+      <module name="courese" options="" />
       <module name="course" options="-parameters" />
       <module name="gateway" options="-parameters" />
       <module name="renren-fast" options="-parameters" />

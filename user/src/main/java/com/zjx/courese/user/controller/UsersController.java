@@ -1,17 +1,16 @@
 package com.zjx.courese.user.controller;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.zjx.common.utils.Query;
 import com.zjx.courese.user.feign.CourseFeignService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.zjx.courese.user.entity.UsersEntity;
 import com.zjx.courese.user.service.UsersService;
@@ -28,7 +27,6 @@ import com.zjx.common.utils.R;
  * @date 2023-10-20 10:18:17
  */
 @RestController
-@RefreshScope
 @RequestMapping("user/users")
 public class UsersController {
     @Autowired
@@ -36,6 +34,54 @@ public class UsersController {
 
     @Autowired
     CourseFeignService courseFeignService;
+
+
+
+    @RequestMapping("/register")
+    public R register(@RequestParam Map<String,Object> params ){
+        //从params中获取用户名和密码参数
+        String username = (String) params.get("username");
+        String password = (String) params.get("password");
+
+        //判断该用户名是否已存在
+
+
+        //构建用户实体
+        UsersEntity usersEntity = new UsersEntity();
+        usersEntity.setUsername(username);
+        usersEntity.setPassword(password);
+        usersEntity.setDateRegistered(new Date());
+        usersEntity.setLastLogin(new Date());
+
+        //保存到数据库中
+        usersService.save(usersEntity);
+
+        //从数据库中查询该注册信息
+        PageUtils page = usersService.queryLogin(params);
+
+        if (page != null && !page.getList().isEmpty()) {
+            return R.ok().put("page", page);
+        } else {
+            return R.error(500,"注册失败").put("page",page);
+        }
+    }
+
+    @RequestMapping("/login")
+    public R login(@RequestParam Map<String, Object> params){
+        PageUtils page = usersService.queryLogin(params);
+        if (page != null && !page.getList().isEmpty()) {
+            return R.ok().put("page", page);
+        } else {
+            return R.error(500,"没有找到匹配的用户").put("page",page);
+        }
+    }
+
+
+    @RequestMapping("/logout")
+    public R logout(@RequestParam Map<String, Object> params){
+       return R.ok("用户已退出");
+    }
+
     @RequestMapping("/courses")
     public R test(){
         UsersEntity usersEntity=new UsersEntity();
@@ -47,14 +93,6 @@ public class UsersController {
         return R.ok().put("user",usersEntity).put("course",usercourse.get("course"));
 
     }
-
-
-    @RequestMapping("/find/{username}")
-    public R findUserByName(@PathVariable("username") String username){
-        UsersEntity entity = usersService.getByName(username);
-        return R.ok().put("user",entity);
-    }
-
     /**
      * 列表
      */
@@ -77,7 +115,6 @@ public class UsersController {
 
         return R.ok().put("users", users);
     }
-
 
     /**
      * 保存

@@ -30,10 +30,13 @@ spring:
       matching-strategy: ANT_PATH_MATCHER
   application:
     name: renren-fast
+
+
   cloud:
     nacos:
       discovery:
-        server-addr: 192.168.133.1:8848
+        server-addr: 192.168.110.1:8848
+
 #  resources:
 #    add-mappings: false
 

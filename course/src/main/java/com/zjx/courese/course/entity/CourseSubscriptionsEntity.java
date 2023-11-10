@@ -1,5 +1,6 @@
 package com.zjx.courese.course.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -22,8 +23,8 @@ public class CourseSubscriptionsEntity implements Serializable {
 	/**
 	 * 
 	 */
-	@TableId
-	private Integer userId;
+
+	private Integer userId ;
 	/**
 	 * 
 	 */
@@ -32,5 +33,9 @@ public class CourseSubscriptionsEntity implements Serializable {
 	 * 
 	 */
 	private Date subscriptionDate;
+
+	//课程实体
+	@TableField(exist = false)
+	private CoursesEntity course = null;
 
 }

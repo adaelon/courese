@@ -1,5 +1,7 @@
 package com.zjx.courese.course.service.impl;
 
+import com.alibaba.cloud.commons.lang.StringUtils;
+import com.zjx.courese.course.entity.CoursesEntity;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -24,6 +26,19 @@ public class CourseSubscriptionsServiceImpl extends ServiceImpl<CourseSubscripti
         );
 
         return new PageUtils(page);
+    }
+
+    public PageUtils queryUserCourse(Map<String, Object> params){
+        String userNum = (String) params.get("userId");
+        Integer userId = Integer.parseInt(userNum);
+
+        IPage<CourseSubscriptionsEntity> page = this.page(
+                new Query<CourseSubscriptionsEntity>().getPage(params),
+                new QueryWrapper<CourseSubscriptionsEntity>()
+                        .eq("user_id",userId)
+        );
+        return new PageUtils(page);
+
     }
 
 }

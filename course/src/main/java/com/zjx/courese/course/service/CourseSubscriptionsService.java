@@ -16,5 +16,8 @@ import java.util.Map;
 public interface CourseSubscriptionsService extends IService<CourseSubscriptionsEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+
+    PageUtils queryUserCourse(Map<String, Object> params);
 }
 

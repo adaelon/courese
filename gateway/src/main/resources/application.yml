@@ -33,7 +33,7 @@ spring:
 
     nacos:
       discovery:
-        server-addr: 192.168.133.1:8848
+        server-addr: 192.168.110.1:8848
 
 
 

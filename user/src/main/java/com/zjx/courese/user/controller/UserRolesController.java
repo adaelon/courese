@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.zjx.courese.user.entity.RolesEntity;
+import com.zjx.courese.user.service.RolesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,6 +33,18 @@ public class UserRolesController {
     @Autowired
     private UserRolesService userRolesService;
 
+
+    @Autowired
+    private RolesService rolesService;
+
+    @RequestMapping("/infoRoles/{userId}")
+    //@RequiresPermissions("user:userroles:info")
+    public R infoRoles(@PathVariable("userId") Integer userId){
+        UserRolesEntity userRoles = userRolesService.getById(userId);
+        RolesEntity roles = rolesService.getById(userRoles.getRoleId());
+        return R.ok().put("roles", roles);
+
+    }
     /**
      * 列表
      */
@@ -53,6 +67,7 @@ public class UserRolesController {
 
         return R.ok().put("userRoles", userRoles);
     }
+
 
     /**
      * 保存
