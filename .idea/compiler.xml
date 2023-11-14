@@ -12,6 +12,7 @@
         <module name="Score" />
         <module name="common" />
         <module name="work" />
+        <module name="auth-server" />
         <module name="course" />
         <module name="renren-fast" />
         <module name="user" />
@@ -19,12 +20,15 @@
         <module name="renren-generator" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="17" />
+    <bytecodeTargetLevel target="17">
+      <module name="fastdfs-client-java" target="1.6" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="PeerEvaluation" options="-parameters" />
       <module name="Score" options="-parameters" />
+      <module name="auth-server" options="-parameters" />
       <module name="common" options="" />
       <module name="courese" options="" />
       <module name="course" options="-parameters" />
