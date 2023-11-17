@@ -43,6 +43,7 @@ public class UploadedFilesController {
         if(file!=null){
             System.out.println("multipartFile = " + file.getName()+"|"+file.getSize());
 
+
             String configFile = this.getClass().getResource("/tracker.conf").getFile();
             ClientGlobal.init(configFile);
             TrackerClient trackerClient=new TrackerClient();
