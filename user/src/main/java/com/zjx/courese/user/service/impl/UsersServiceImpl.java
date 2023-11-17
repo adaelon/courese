@@ -26,24 +26,17 @@ public class UsersServiceImpl extends ServiceImpl<UsersDao, UsersEntity> impleme
         return new PageUtils(page);
     }
 
-
     @Override
-    public PageUtils queryLogin(Map<String, Object> params){
-        //从params中获取用户名和密码参数
-        String username = (String) params.get("username");
-        String password = (String) params.get("password");
-
-        //创建分页对象
-        IPage<UsersEntity> page = this.page(
-                new Query<UsersEntity>().getPage(params),
-                new QueryWrapper<UsersEntity>()
-                        .eq("username",username)
-                        .eq("password",password)
-        );
+    public UsersEntity getByName(String username) {
+        UsersDao usersDao = this.baseMapper;
+        UsersEntity usersEntity = usersDao.selectOne(new QueryWrapper<UsersEntity>().eq("username",username));
+        if(usersEntity==null){
+            return  null;
+        }else {
+            return usersEntity;
+        }
 
 
-        //返回查询结果
-        return new PageUtils(page);
     }
 
 }

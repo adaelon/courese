@@ -6,6 +6,7 @@ import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.zjx.courese.authserver.bean.ComUser;
 import com.zjx.courese.authserver.bean.Result;
+import com.zjx.courese.authserver.feign.UserFeignService;
 import com.zjx.courese.authserver.utils.JwtUtils;
 import com.zjx.courese.authserver.utils.RedisUtil;
 import com.zjx.courese.authserver.utils.result.SystemResult;
@@ -29,6 +30,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     @Resource
     RedisUtil redisUtils;
 
+    @Autowired
+    UserFeignService userFeignService;
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         ComUser user = (ComUser) authentication.getPrincipal();
@@ -44,7 +47,9 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         response.setHeader("Authorization", jwt);
 
-        Result result = Result.succ("");
+
+
+        Result result = Result.succ(userFeignService.findUserByName(user.getUsername()));
 
         outputStream.write(JSONUtil.toJsonStr(result).getBytes("UTF-8"));
 

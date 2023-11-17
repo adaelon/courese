@@ -53,7 +53,4 @@ public class UsersEntity implements Serializable {
 	 */
 	private Date lastLogin;
 
-	//性别
-	private String sex;
-
 }

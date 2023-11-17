@@ -48,7 +48,21 @@
             <version>1.1.13</version>
             <scope>compile</scope>
         </dependency>
-    </dependencies>
+		<!-- 解决项目启动警告：LoadBalancerCacheManager not available, returning delegate without caching.-->
+		<!-- 如果注册中心有自己的缓存，那么就可以禁用loadbalancer的缓存-->
+		<dependency>
+					<groupId>com.github.ben-manes.caffeine</groupId>
+					<artifactId>caffeine</artifactId>
+					<version>3.1.1</version>
+		</dependency>
+		<!-- 解决项目启动警告：Spring Cloud LoadBalancer is currently working with the default cache. You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.-->
+		<dependency>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-context-support</artifactId>
+		</dependency>
+
+
+	</dependencies>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

@@ -1,21 +1,25 @@
 package com.zjx.courese.work.controller;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.commons.lang.StringUtils;
+import org.csource.common.MyException;
+import org.csource.fastdfs.ClientGlobal;
+import org.csource.fastdfs.StorageClient;
+import org.csource.fastdfs.TrackerClient;
+import org.csource.fastdfs.TrackerServer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
 
 import com.zjx.courese.work.entity.UploadedFilesEntity;
 import com.zjx.courese.work.service.UploadedFilesService;
 import com.zjx.common.utils.PageUtils;
 import com.zjx.common.utils.R;
-
+import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -30,6 +34,38 @@ import com.zjx.common.utils.R;
 public class UploadedFilesController {
     @Autowired
     private UploadedFilesService uploadedFilesService;
+
+    @Value("${fileServer.url}")
+    String fileUrl;
+    @RequestMapping(value = "fileUpload",method = RequestMethod.POST)
+    public R fileUpload(@RequestParam("file") MultipartFile file) throws IOException, MyException {
+        String imgUrl=fileUrl;
+        if(file!=null){
+            System.out.println("multipartFile = " + file.getName()+"|"+file.getSize());
+
+            String configFile = this.getClass().getResource("/tracker.conf").getFile();
+            ClientGlobal.init(configFile);
+            TrackerClient trackerClient=new TrackerClient();
+            TrackerServer trackerServer=trackerClient.getTrackerServer();
+            StorageClient storageClient=new StorageClient(trackerServer,null);
+            String filename=    file.getOriginalFilename();
+            String extName = StringUtils.substringAfterLast(filename, ".");
+
+            String[] upload_file = storageClient.upload_file(file.getBytes(), extName, null);
+            imgUrl=fileUrl ;
+            imgUrl+=":8189";
+
+            for (int i = 0; i < upload_file.length; i++) {
+                String path = upload_file[i];
+                imgUrl+="/"+path;
+            }
+
+            //System.out.println(imgUrl);
+
+        }
+
+        return R.ok().put("imageUrl",imgUrl);
+    }
 
     /**
      * 列表
