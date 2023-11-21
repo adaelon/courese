@@ -11,6 +11,13 @@ spring:
           spec: initialCapacity=500,expireAfterWrite=5s
     gateway:
       routes:
+        - id: peer
+          uri:
+            lb://peerevaluation
+          predicates:
+            - Path=/courese/peerevaluation/**
+          filters:
+            - RewritePath=/courese/(?<segment>.*), /$\{segment}
         - id: work
           uri:
             lb://work

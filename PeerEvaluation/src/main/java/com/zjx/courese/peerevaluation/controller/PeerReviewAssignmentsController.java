@@ -34,9 +34,10 @@ public class PeerReviewAssignmentsController {
 
 
     @RequestMapping("/userWork")
-    public R userWork(@RequestParam Map<String,Object> params){
-           PageUtils page = peerReviewAssignmentsService.queryUserWork(params);
-           return R.ok().put("page",page);
+    public R userWork(@RequestBody Map<String,Object> params){
+        System.out.println(params);
+        PageUtils page = peerReviewAssignmentsService.queryUserWork(params);
+        return R.ok().put("page", page);
     }
 
     /**

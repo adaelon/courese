@@ -30,10 +30,17 @@ public class PeerReviewAssignmentsServiceImpl extends ServiceImpl<PeerReviewAssi
 
     @Override
     public  PageUtils queryUserWork(Map<String, Object> params){
-                 String userNum = (String)params.get("userId");
-                 Integer userId = Integer.parseInt(userNum);
+        Object userIdObj = params.get("userId");
+        Integer userId = null;
 
-                 String type = (String)params.get("type");
+        if (userIdObj instanceof Integer) {
+            userId = (Integer) userIdObj;
+        } else if (userIdObj instanceof String) {
+            userId = Integer.parseInt((String) userIdObj);
+        }
+
+
+        String type = (String)params.get("type");
                  int status= 0 ;
                  if(type.equals("全部")){
 

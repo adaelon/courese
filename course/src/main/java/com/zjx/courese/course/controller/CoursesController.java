@@ -58,7 +58,7 @@ public class CoursesController {
 
     //查询老师创建的课程
     @RequestMapping("/teacherCourse")
-    public R teacherCourse(@RequestParam Map<String,Object> params){
+    public R teacherCourse(@RequestBody Map<String,Object> params){
         PageUtils page = coursesService.queryTeacherCourse(params);
 
 

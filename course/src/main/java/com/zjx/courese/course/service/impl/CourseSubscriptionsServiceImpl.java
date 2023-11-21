@@ -29,8 +29,14 @@ public class CourseSubscriptionsServiceImpl extends ServiceImpl<CourseSubscripti
     }
 
     public PageUtils queryUserCourse(Map<String, Object> params){
-        String userNum = (String) params.get("userId");
-        Integer userId = Integer.parseInt(userNum);
+        Object userIdObj = params.get("userId");
+        Integer userId = null;
+
+        if (userIdObj instanceof Integer) {
+            userId = (Integer) userIdObj;
+        } else if (userIdObj instanceof String) {
+            userId = Integer.parseInt((String) userIdObj);
+        }
 
         IPage<CourseSubscriptionsEntity> page = this.page(
                 new Query<CourseSubscriptionsEntity>().getPage(params),

@@ -70,8 +70,14 @@ public class CoursesServiceImpl extends ServiceImpl<CoursesDao, CoursesEntity> i
 
     @Override
     public PageUtils queryTeacherCourse(Map<String, Object> params){
-        String userNum = (String)params.get("userId");
-        Integer userId = Integer.parseInt(userNum);
+        Object userIdObj = params.get("userId");
+        Integer userId = null;
+
+        if (userIdObj instanceof Integer) {
+            userId = (Integer) userIdObj;
+        } else if (userIdObj instanceof String) {
+            userId = Integer.parseInt((String) userIdObj);
+        }
 
         IPage<CoursesEntity> page = this.page(
                 new Query<CoursesEntity>().getPage(params),
