@@ -1,5 +1,6 @@
 package com.zjx.courese.user.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -55,5 +56,9 @@ public class UsersEntity implements Serializable {
 
 	//性别
 	private String sex;
+
+	//身份标识
+	@TableField(exist = false)
+	private Integer roleId;
 
 }

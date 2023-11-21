@@ -31,6 +31,14 @@ public class PeerReviewAssignmentsController {
     @Autowired
     private PeerReviewAssignmentsService peerReviewAssignmentsService;
 
+
+
+    @RequestMapping("/userWork")
+    public R userWork(@RequestParam Map<String,Object> params){
+           PageUtils page = peerReviewAssignmentsService.queryUserWork(params);
+           return R.ok().put("page",page);
+    }
+
     /**
      * 列表
      */

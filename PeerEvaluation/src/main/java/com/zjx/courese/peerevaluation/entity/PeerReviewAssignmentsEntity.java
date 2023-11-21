@@ -29,4 +29,9 @@ public class PeerReviewAssignmentsEntity implements Serializable {
 	 */
 	private Integer submissionId;
 
+	//评价状态
+	private Integer status;
+
+
+
 }

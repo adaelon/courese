@@ -17,5 +17,7 @@ public interface CoursesService extends IService<CoursesEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
     PageUtils queryPageLimit(Map<String, Object> params);
+
+    PageUtils queryTeacherCourse(Map<String, Object> params);
 }
 

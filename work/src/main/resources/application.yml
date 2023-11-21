@@ -2,7 +2,7 @@ spring:
   datasource:
     username: root
     password: UAwz7620?
-    url: jdbc:mysql://bj-cynosdbmysql-grp-j3h2qsj4.sql.tencentcdb.com:29746/courese_work?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://154.8.177.155:3306/courese_work?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   cloud:

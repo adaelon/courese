@@ -2,6 +2,7 @@ package com.zjx.courese.user.controller;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -9,6 +10,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zjx.common.utils.Query;
 import com.zjx.courese.user.feign.CourseFeignService;
+import com.zjx.courese.user.service.UserRolesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +36,10 @@ public class UsersController {
 
     @Autowired
     CourseFeignService courseFeignService;
+
+    @Autowired
+    private UserRolesService userRolesService;
+
 
 
 
@@ -69,6 +75,10 @@ public class UsersController {
     @RequestMapping("/login")
     public R login(@RequestParam Map<String, Object> params){
         PageUtils page = usersService.queryLogin(params);
+        List<UsersEntity> usersEntity = (List<UsersEntity>) page.getList();
+        Integer userId = usersEntity.get(0).getUserId();
+        Integer roleId= userRolesService.getById(userId).getRoleId();
+        usersEntity.get(0).setRoleId(roleId);
         if (page != null && !page.getList().isEmpty()) {
             return R.ok().put("page", page);
         } else {

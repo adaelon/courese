@@ -26,4 +26,39 @@ public class PeerReviewAssignmentsServiceImpl extends ServiceImpl<PeerReviewAssi
         return new PageUtils(page);
     }
 
+
+
+    @Override
+    public  PageUtils queryUserWork(Map<String, Object> params){
+                 String userNum = (String)params.get("userId");
+                 Integer userId = Integer.parseInt(userNum);
+
+                 String type = (String)params.get("type");
+                 int status= 0 ;
+                 if(type.equals("全部")){
+
+                     IPage<PeerReviewAssignmentsEntity> page = this.page(
+                             new Query<PeerReviewAssignmentsEntity>().getPage(params),
+                             new QueryWrapper<PeerReviewAssignmentsEntity>()
+                                     .eq("reviewer_id",userId)
+                     );
+
+                     return new PageUtils(page);
+                 }else if(type.equals("未完成")){
+                     status = 0;
+                 }else if(type.equals("已完成")){
+                     status = 1;
+                 }else if(type.equals("已失效")){
+                     status = 2;
+                 }
+
+                 IPage<PeerReviewAssignmentsEntity> page = this.page(
+                         new Query<PeerReviewAssignmentsEntity>().getPage(params),
+                         new QueryWrapper<PeerReviewAssignmentsEntity>()
+                                 .eq("reviewer_id",userId)
+                                 .eq("status",status)
+                 );
+
+                 return new PageUtils(page);
+    }
 }
