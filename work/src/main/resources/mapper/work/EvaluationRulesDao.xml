@@ -8,6 +8,10 @@
         <result property="ruleId" column="rule_id"/>
         <result property="assignmentId" column="assignment_id"/>
         <result property="ruleDescription" column="rule_description"/>
+        <result property="peerNum" column="peer_num"/>
+        <result property="startDate" column="start_date"/>
+        <result property="dueDate" column="due_date"/>
+        <result property="type" column="type"/>
     </resultMap>
 
 

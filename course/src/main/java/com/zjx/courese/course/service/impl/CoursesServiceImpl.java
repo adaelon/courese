@@ -67,4 +67,18 @@ public class CoursesServiceImpl extends ServiceImpl<CoursesDao, CoursesEntity> i
         return new PageUtils(page);
     };
 
+
+    @Override
+    public PageUtils queryTeacherCourse(Map<String, Object> params){
+        String userNum = (String)params.get("userId");
+        Integer userId = Integer.parseInt(userNum);
+
+        IPage<CoursesEntity> page = this.page(
+                new Query<CoursesEntity>().getPage(params),
+                new QueryWrapper<CoursesEntity>().eq("creator_id",userId)
+        );
+
+        return new PageUtils(page);
+    }
+
 }

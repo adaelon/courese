@@ -20,17 +20,24 @@ public class EvaluationRulesEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 
+	 *
 	 */
 	@TableId
 	private Integer ruleId;
 	/**
-	 * 
+	 *
 	 */
 	private Integer assignmentId;
 	/**
-	 * 
+	 *
 	 */
 	private String ruleDescription;
 
+	private Integer peerNum;
+
+	private Date startDate;
+
+	private Date dueDate;
+
+	private String type;
 }

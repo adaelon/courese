@@ -1,14 +1,17 @@
 package com.zjx.courese.course.controller;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.zjx.courese.course.entity.CategoriesEntity;
+import com.zjx.courese.course.entity.CourseSubscriptionsEntity;
 import com.zjx.courese.course.feign.UserFeignService;
 import com.zjx.courese.course.service.CategoriesService;
 import com.zjx.courese.user.entity.UsersEntity;
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -53,6 +56,42 @@ public class CoursesController {
 
 
 
+    //查询老师创建的课程
+    @RequestMapping("/teacherCourse")
+    public R teacherCourse(@RequestParam Map<String,Object> params){
+        PageUtils page = coursesService.queryTeacherCourse(params);
+
+
+        //获取查询到的课程列表
+        List<CoursesEntity> courseList = (List<CoursesEntity>) page.getList();
+        //遍历课程列表，将creatorId转换为username
+        for(CoursesEntity course:courseList){
+            Integer categoryId = course.getCategoryId();
+            CategoriesEntity categoriesEntity= categoriesService.getById(categoryId);
+            course.setCategory(categoriesEntity.getCategoryName());
+            Integer creatorId = course.getCreatorId();
+            R info = userFeignService.info(creatorId);
+            if (info.get("code").equals(0)) {
+                Map<String, Object> usersData = (Map<String, Object>) info.get("users");
+                UsersEntity user = new UsersEntity();
+                user.setUserId((Integer) usersData.get("userId"));
+                user.setUsername((String) usersData.get("username"));
+                course.setUsername(user.getUsername());
+            } else {
+                // 出现异常
+            }
+        }
+
+        return R.ok().put("page", page);
+
+
+    }
+
+
+
+
+
+
     @RequestMapping("/user/list")
     public R userCourse(){
         CoursesEntity  coursesEntity=new CoursesEntity();
@@ -60,21 +99,7 @@ public class CoursesController {
         return R.ok().put("course",Arrays.asList(coursesEntity));
     }
 
-    /**
-     * 列表
-     */
 
-    //    @RequestMapping("/courses")
-//    public R test(){
-//        UsersEntity usersEntity=new UsersEntity();
-//        usersEntity.setUsername("ada");
-//
-//        R usercourse= courseFeignService.userCourse();
-//
-//
-//        return R.ok().put("user",usersEntity).put("course",usercourse.get("course"));
-//
-//    }
 
     @RequestMapping("/limitList")
     public R limitList(@RequestParam Map<String, Object> params)
@@ -152,6 +177,53 @@ public class CoursesController {
         }
 
         return R.ok().put("courses", courses);
+    }
+
+//    newCourse:
+//    {
+//        coursename: '',
+//                description: '',
+//            creatorId:item.creatorId,
+//            category:'',
+//            img:'',
+//            level:'',
+//            time:'',
+//    }
+
+    @RequestMapping("/createCourse")
+    public R createLession(@RequestParam Map<String,Object> params){
+        //从params获取相关参数
+        String courseName = (String)params.get("coursename");
+        String description = (String)params.get("description");
+        Integer creatorId = Integer.parseInt((String) params.get("creatorId"));
+        Integer categoryId = Integer.parseInt((String)params.get("category")) ;
+        String courseImg = (String)params.get("img");
+        String courseLevel = (String)params.get("level");
+        Integer courseTime = Integer.parseInt((String)params.get("time"));
+
+        //判断是否有冲突课程（未完成）
+
+        //构建课程实体
+        CoursesEntity coursesEntity = new CoursesEntity();
+        coursesEntity.setCourseName(courseName);
+        coursesEntity.setDescription(description);
+        coursesEntity.setCreatorId(creatorId);
+        coursesEntity.setCategoryId(categoryId);
+        coursesEntity.setCreationDate(new Date());
+        coursesEntity.setCourseImg(courseImg);
+        coursesEntity.setCourseLevel(courseLevel);
+        coursesEntity.setCourseTime(courseTime);
+        coursesEntity.setCoursePeople(0);
+
+        //保存到数据库中
+        coursesService.save(coursesEntity);
+
+        //返回前端信息
+        return R.ok("创建课程成功");
+
+
+
+
     }
 
     /**

@@ -55,7 +55,6 @@ public class CourseSubscriptionsController {
     //查询用户所选课程
     @RequestMapping("/userCourse")
     public R userCourse(@RequestParam Map<String,Object> params){
-        System.out.println(params);
         PageUtils page = courseSubscriptionsService.queryUserCourse(params);
 
         List<CourseSubscriptionsEntity> list = (List<CourseSubscriptionsEntity>) page.getList();

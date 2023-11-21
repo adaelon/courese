@@ -11,6 +11,8 @@
         <result property="description" column="description"/>
         <result property="dueDate" column="due_date"/>
         <result property="categoryId" column="category_id"/>
+        <result property="startDate" column="start_date"/>
+        <result property="score" column="score"/>
     </resultMap>
 
 

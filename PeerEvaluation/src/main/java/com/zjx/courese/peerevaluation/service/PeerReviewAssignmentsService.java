@@ -16,5 +16,7 @@ import java.util.Map;
 public interface PeerReviewAssignmentsService extends IService<PeerReviewAssignmentsEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    PageUtils queryUserWork(Map<String, Object> params);
 }
 

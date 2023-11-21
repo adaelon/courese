@@ -20,29 +20,32 @@ public class AssignmentsEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 
+	 *
 	 */
 	@TableId
 	private Integer assignmentId;
 	/**
-	 * 
+	 *
 	 */
 	private Integer courseId;
 	/**
-	 * 
+	 *
 	 */
 	private String title;
 	/**
-	 * 
+	 *
 	 */
 	private String description;
 	/**
-	 * 
+	 *
 	 */
 	private Date dueDate;
 	/**
-	 * 
+	 *
 	 */
 	private Integer categoryId;
 
+	private Date startDate;
+
+	private Integer score;
 }

@@ -1,6 +1,8 @@
 package com.zjx.courese.peerevaluation.controller;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -31,6 +33,38 @@ public class PeerReviewsController {
     @Autowired
     private PeerReviewsService peerReviewsService;
 
+
+
+
+
+    //创建评阅
+    @RequestMapping("/createReview")
+    public R createReview(@RequestParam Map<String,Object> params){
+        //从params获取相关参数
+        Integer submissionId = Integer.parseInt((String)params.get("submissionId"));
+        Integer reviewerId = Integer.parseInt((String)params.get("reviewerId"));
+        BigDecimal score = new BigDecimal((String)params.get("score"));
+        String feedback = (String)params.get("feedback");
+
+        //构建实体
+        PeerReviewsEntity peerReviewsEntity = new PeerReviewsEntity();
+        peerReviewsEntity.setSubmissionId(submissionId);
+        peerReviewsEntity.setReviewerId(reviewerId);
+        peerReviewsEntity.setScore(score);
+        peerReviewsEntity.setFeedback(feedback);
+        peerReviewsEntity.setReviewDate(new Date());
+
+
+        //需要根据submissionId修改状态为已完成（未写）
+
+        //保存到数据库中
+        peerReviewsService.save(peerReviewsEntity);
+
+        //向前端返回消息
+        return R.ok("评价成功！");
+
+
+    }
     /**
      * 列表
      */

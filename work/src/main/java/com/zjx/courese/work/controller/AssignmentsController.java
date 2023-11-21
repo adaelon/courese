@@ -62,7 +62,7 @@ public class AssignmentsController {
     public R save(@RequestBody AssignmentsEntity assignments){
 		assignmentsService.save(assignments);
 
-        return R.ok();
+        return R.ok().put("assignment", assignments);
     }
 
     /**

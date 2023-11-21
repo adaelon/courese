@@ -1,9 +1,15 @@
 package com.zjx.courese.work.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.zjx.courese.work.entity.AssignmentsEntity;
+import com.zjx.courese.work.entity.EvaluationRulesEntity;
+import com.zjx.courese.work.service.AssignmentsService;
+import com.zjx.courese.work.service.EvaluationRulesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,6 +37,12 @@ public class SubmissionsController {
     @Autowired
     private SubmissionsService submissionsService;
 
+    @Autowired
+    private AssignmentsService assignmentsService;
+
+    @Autowired
+    private EvaluationRulesService evaluationRulesService;
+
     /**
      * 列表
      */
@@ -49,9 +61,22 @@ public class SubmissionsController {
     @RequestMapping("/info/{submissionId}")
     //@RequiresPermissions("work:submissions:info")
     public R info(@PathVariable("submissionId") Integer submissionId){
+        //获得当前学生提交作业的详细内容
 		SubmissionsEntity submissions = submissionsService.getById(submissionId);
+        Integer assignmentId = submissions.getAssignmentId();
+        //获得当前作业的详细要求
+        AssignmentsEntity  assignments = assignmentsService.getById(assignmentId);
+        QueryWrapper<EvaluationRulesEntity> queryWrapper = new QueryWrapper<>();
+        //构造查询条件
+        queryWrapper.eq("assignment_id",assignmentId);
+        //获得作业的评价规则
+        EvaluationRulesEntity evaluationRules= evaluationRulesService.getOne(queryWrapper);
 
-        return R.ok().put("submissions", submissions);
+        Map<String, Object> map = new HashMap<String,Object>();
+        map.put("submissions",submissions);
+        map.put("assignments",assignments);
+        map.put("evaluationRules",evaluationRules);
+        return R.ok().put("data", map);
     }
 
     /**
