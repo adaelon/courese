@@ -11,4 +11,7 @@ public interface UserFeignService {
     @RequestMapping("/user/users/find/{username}")
     public R findUserByName(@PathVariable String username);
 
+    @RequestMapping("/user/userroles/info/{userId}")
+    public R info(@PathVariable("userId") Integer userId);
+
 }

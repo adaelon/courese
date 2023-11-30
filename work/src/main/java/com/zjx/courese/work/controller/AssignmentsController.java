@@ -4,7 +4,10 @@ import java.util.Arrays;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.zjx.courese.work.feign.AnomaliesFeignService;
+import com.zjx.courese.work.vo.AnomaliesVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,10 +29,14 @@ import com.zjx.common.utils.R;
  * @date 2023-10-19 11:56:34
  */
 @RestController
+@RefreshScope
 @RequestMapping("work/assignments")
 public class AssignmentsController {
     @Autowired
     private AssignmentsService assignmentsService;
+
+    @Autowired
+    AnomaliesFeignService anomaliesFeignService;
 
     /**
      * 列表
@@ -42,7 +49,14 @@ public class AssignmentsController {
         return R.ok().put("page", page);
     }
 
+    @RequestMapping("/worklist/{courseId}")
+    //@RequiresPermissions("work:assignments:info")
+    public R info(@PathVariable("courseId") Integer courseId,
+                  @RequestParam Map<String, Object> params){
+       PageUtils page = assignmentsService.queryAssignmentsPageByCourseId(params, courseId);
 
+        return R.ok().put("assignments", page);
+    }
     /**
      * 信息
      */

@@ -21,33 +21,36 @@ public class SubmissionsEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 
+	 *
 	 */
 	@TableId
 	private Integer submissionId;
 	/**
-	 * 
+	 *
 	 */
 	private Integer assignmentId;
 	/**
-	 * 
+	 *
 	 */
 	private Integer userId;
 	/**
-	 * 
+	 *
 	 */
 	private String content;
 	/**
-	 * 
+	 *
 	 */
 	private Date submissionDate;
 	/**
-	 * 
+	 *
 	 */
 	private BigDecimal similarityScore;
 	/**
-	 * 
+	 *
 	 */
 	private BigDecimal preliminaryScore;
+
+	private BigDecimal finalScore;
+
 
 }

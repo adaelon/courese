@@ -19,5 +19,7 @@ public interface CourseSubscriptionsService extends IService<CourseSubscriptions
 
 
     PageUtils queryUserCourse(Map<String, Object> params);
+
+    PageUtils queryCourseUser(Map<String, Object> params,Integer courseId);
 }
 

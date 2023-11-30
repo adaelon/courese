@@ -13,6 +13,7 @@
         <result property="categoryId" column="category_id"/>
         <result property="startDate" column="start_date"/>
         <result property="score" column="score"/>
+        <result property="status" column="status"/>
     </resultMap>
 
 

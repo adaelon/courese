@@ -8,6 +8,9 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.133.1:8848
+  main:
+    #允许存在多个Feign调用相同Service的接口
+    allow-bean-definition-overriding: true
 
   application:
     name: peerevaluation
@@ -16,6 +19,33 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto
+sfs:
+  nacos:
+    server-addr: localhost:8848
+    namespace:
+    group: SEATA_GROUP
+seata:
+  enabled: true
+  application-id : ${spring.application.name}
+  tx-service-group: default_tx_group
+  use-jdk-proxy: true
+  enable-auto-data-source-proxy: true
+  registry:
+    type: nacos
+    nacos:
+      application: seata-tc-server
+      server-addr: ${sfs.nacos.server-addr}
+      namespace: ${sfs.nacos.namespace}
+      group: ${sfs.nacos.group}
+  config:
+    type: nacos
+    nacos:
+      server-addr: ${sfs.nacos.server-addr}
+      namespace: ${sfs.nacos.namespace}
+      group: ${sfs.nacos.group}
+  service:
+    vgroupMapping:
+      default_tx_group: default
 
 server:
   port: 8000

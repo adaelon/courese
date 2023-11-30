@@ -48,4 +48,7 @@ public class AssignmentsEntity implements Serializable {
 	private Date startDate;
 
 	private Integer score;
+
+	private Integer status;
+
 }

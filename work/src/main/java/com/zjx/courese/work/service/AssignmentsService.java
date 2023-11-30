@@ -16,5 +16,7 @@ import java.util.Map;
 public interface AssignmentsService extends IService<AssignmentsEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    PageUtils queryAssignmentsPageByCourseId(Map<String, Object> params, Integer courseId);
 }
 

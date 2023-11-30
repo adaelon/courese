@@ -2,12 +2,15 @@ package com.zjx.courese.work.controller;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+
 import com.zjx.courese.work.entity.AssignmentsEntity;
 import com.zjx.courese.work.entity.EvaluationRulesEntity;
+import com.zjx.courese.work.feign.AnomaliesFeignService;
 import com.zjx.courese.work.service.AssignmentsService;
 import com.zjx.courese.work.service.EvaluationRulesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +45,12 @@ public class SubmissionsController {
 
     @Autowired
     private EvaluationRulesService evaluationRulesService;
+
+    @Autowired
+    private AnomaliesFeignService anomaliesFeignService;
+
+
+
 
     /**
      * 列表
@@ -79,6 +88,16 @@ public class SubmissionsController {
         return R.ok().put("data", map);
     }
 
+    @RequestMapping("subAss/{assignmentId}")
+    public R subAss(@PathVariable("assignmentId") Integer assignmentId,
+                        @RequestParam Map<String,Object> params){
+        System.out.println(params);
+        PageUtils page = submissionsService.querySubAss(params,assignmentId);
+
+        List<SubmissionsEntity> list = (List<SubmissionsEntity>) page.getList();
+
+        return R.ok().put("page",page);
+    }
     /**
      * 保存
      */

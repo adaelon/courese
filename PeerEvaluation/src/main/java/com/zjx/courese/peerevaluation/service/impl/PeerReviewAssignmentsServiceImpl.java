@@ -25,7 +25,15 @@ public class PeerReviewAssignmentsServiceImpl extends ServiceImpl<PeerReviewAssi
 
         return new PageUtils(page);
     }
-
+    @Override
+    public int updateStatus(Integer reviewerId, Integer submissionId, Integer status) {
+        // 构建更新条件并执行更新
+        return lambdaUpdate()
+                .eq(PeerReviewAssignmentsEntity::getReviewerId, reviewerId)
+                .eq(PeerReviewAssignmentsEntity::getSubmissionId, submissionId)
+                .set(PeerReviewAssignmentsEntity::getStatus, status)
+                .update() ? 1 : 0;
+    }
 
 
     @Override

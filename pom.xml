@@ -24,5 +24,12 @@
 
 
 	</modules>
+	<dependencies>
+			<dependency>
+			<groupId>io.seata</groupId>
+			<artifactId>seata-all</artifactId>
+			<version>1.6.1</version>
+			</dependency>
+	</dependencies>
 
 </project>

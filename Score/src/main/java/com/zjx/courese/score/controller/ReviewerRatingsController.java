@@ -1,6 +1,8 @@
 package com.zjx.courese.score.controller;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -31,6 +33,36 @@ public class ReviewerRatingsController {
     @Autowired
     private ReviewerRatingsService reviewerRatingsService;
 
+
+
+
+    @RequestMapping("/createRating")
+    public R createRating(@RequestParam Map<String,Object> params){
+        //从params获取相关参数
+
+        Integer reviewerId = Integer.parseInt((String) params.get("reviewerId"));
+        Integer raterId = Integer.parseInt((String)params.get("raterId")) ;
+        Integer ratingValue = Integer.parseInt((String)params.get("ratingValue")) ;
+
+
+        //构建实体
+        ReviewerRatingsEntity reviewerRatings = new ReviewerRatingsEntity();
+        reviewerRatings.setReviewerId(reviewerId);
+        reviewerRatings.setRaterId(raterId);
+        reviewerRatings.setRatingValue(BigDecimal.valueOf(ratingValue));
+        reviewerRatings.setRatingDate(new Date());
+
+
+        //保存到数据库中
+        reviewerRatingsService.save(reviewerRatings);
+
+        //返回前端信息
+        return R.ok("反馈成功！");
+
+
+
+
+    }
     /**
      * 列表
      */

@@ -4,7 +4,10 @@ import java.util.Arrays;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.zjx.courese.peerevaluation.vo.AnomaliesVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +29,7 @@ import com.zjx.common.utils.R;
  * @date 2023-10-19 20:06:29
  */
 @RestController
+@RefreshScope
 @RequestMapping("peerevaluation/anomalies")
 public class AnomaliesController {
     @Autowired
@@ -57,10 +61,14 @@ public class AnomaliesController {
     /**
      * 保存
      */
+
     @RequestMapping("/save")
     //@RequiresPermissions("peerevaluation:anomalies:save")
-    public R save(@RequestBody AnomaliesEntity anomalies){
-		anomaliesService.save(anomalies);
+    public R save(@RequestBody AnomaliesVO anomalies){
+        AnomaliesEntity anomaliesEntity = new AnomaliesEntity();
+        anomaliesEntity.setReviewerId(anomalies.getReviewerId());
+        anomaliesEntity.setSubmissionId(anomalies.getSubmissionId());
+		anomaliesService.save(anomaliesEntity);
 
         return R.ok();
     }

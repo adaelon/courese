@@ -3,9 +3,12 @@ package com.zjx.courese.peerevaluation.controller;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.zjx.courese.peerevaluation.service.PeerReviewAssignmentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,18 +35,52 @@ import com.zjx.common.utils.R;
 public class PeerReviewsController {
     @Autowired
     private PeerReviewsService peerReviewsService;
+    @Autowired
+    private PeerReviewAssignmentsService peerReviewAssignmentsService;
 
 
+    @RequestMapping("/content")
+    public List<PeerReviewsEntity> content(@RequestParam Map<String,Object> params){
+        Integer submissionId= Integer.parseInt((String)params.get("submissionId"));
+//查询
+        QueryWrapper<PeerReviewsEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("submission_id",submissionId);
+        List<PeerReviewsEntity> resultList = peerReviewsService.list(queryWrapper);
 
+        return resultList;
 
-
+    }
     //创建评阅
     @RequestMapping("/createReview")
-    public R createReview(@RequestParam Map<String,Object> params){
+    public R createReview(@RequestBody Map<String,Object> params){
+        System.out.println(params);
+        Object submissionIdObj = params.get("submissionId");
+        Integer submissionId = null;
+
+        if (submissionIdObj instanceof Integer) {
+            submissionId = (Integer) submissionIdObj;
+        } else if (submissionIdObj instanceof String) {
+            submissionId = Integer.parseInt((String) submissionIdObj);
+        }
         //从params获取相关参数
-        Integer submissionId = Integer.parseInt((String)params.get("submissionId"));
-        Integer reviewerId = Integer.parseInt((String)params.get("reviewerId"));
-        BigDecimal score = new BigDecimal((String)params.get("score"));
+        Object reviewerIdObj = params.get("reviewerId");
+        Integer reviewerId = null;
+
+        if (reviewerIdObj instanceof Integer) {
+            reviewerId = (Integer) reviewerIdObj;
+        } else if (reviewerIdObj instanceof String) {
+            reviewerId = Integer.parseInt((String) reviewerIdObj);
+        }
+
+        Object scoreObj = params.get("score");
+        Integer scoreI = null;
+
+        if (scoreObj instanceof Integer) {
+            scoreI = (Integer) scoreObj;
+        } else if (scoreObj instanceof String) {
+            scoreI = Integer.parseInt((String) scoreObj);
+        }
+        BigDecimal score = new BigDecimal(scoreI);
         String feedback = (String)params.get("feedback");
 
         //构建实体
@@ -56,6 +93,7 @@ public class PeerReviewsController {
 
 
         //需要根据submissionId修改状态为已完成（未写）
+        peerReviewAssignmentsService.updateStatus(reviewerId, submissionId, 1);
 
         //保存到数据库中
         peerReviewsService.save(peerReviewsEntity);

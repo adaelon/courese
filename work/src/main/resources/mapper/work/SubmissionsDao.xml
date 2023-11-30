@@ -12,6 +12,8 @@
         <result property="submissionDate" column="submission_date"/>
         <result property="similarityScore" column="similarity_score"/>
         <result property="preliminaryScore" column="preliminary_score"/>
+        <result property="finalScore" column="final_score"/>
+
     </resultMap>
 
 

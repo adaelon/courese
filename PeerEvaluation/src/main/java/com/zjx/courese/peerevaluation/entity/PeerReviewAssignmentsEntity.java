@@ -22,15 +22,18 @@ public class PeerReviewAssignmentsEntity implements Serializable {
 	/**
 	 * 
 	 */
-	@TableId
+
 	private Integer reviewerId;
 	/**
 	 * 
 	 */
+
 	private Integer submissionId;
 
 	//评价状态
 	private Integer status;
+
+	private Integer assignmentId;
 
 
 

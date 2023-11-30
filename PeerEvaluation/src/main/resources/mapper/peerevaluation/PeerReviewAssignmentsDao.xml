@@ -7,7 +7,11 @@
     <resultMap type="com.zjx.courese.peerevaluation.entity.PeerReviewAssignmentsEntity" id="peerReviewAssignmentsMap">
         <result property="reviewerId" column="reviewer_id"/>
         <result property="submissionId" column="submission_id"/>
+        <result property="assignmentId" column="assignment_id"/>
+        <result property="status" column="status"/>
     </resultMap>
+
+
 
 
 </mapper>

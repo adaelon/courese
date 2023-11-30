@@ -26,4 +26,14 @@ public class AssignmentsServiceImpl extends ServiceImpl<AssignmentsDao, Assignme
         return new PageUtils(page);
     }
 
+    @Override
+    public PageUtils queryAssignmentsPageByCourseId(Map<String, Object> params, Integer courseId) {
+        IPage<AssignmentsEntity> page = this.page(
+                new Query<AssignmentsEntity>().getPage(params),
+                new QueryWrapper<AssignmentsEntity>().eq("course_id", courseId)
+        );
+
+        return new PageUtils(page);
+    }
+
 }

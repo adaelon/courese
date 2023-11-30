@@ -47,4 +47,17 @@ public class CourseSubscriptionsServiceImpl extends ServiceImpl<CourseSubscripti
 
     }
 
+
+    public PageUtils queryCourseUser(Map<String, Object> params,Integer courseId){
+
+
+        IPage<CourseSubscriptionsEntity> page = this.page(
+                new Query<CourseSubscriptionsEntity>().getPage(params),
+                new QueryWrapper<CourseSubscriptionsEntity>()
+                        .eq("course_id",courseId)
+        );
+        return new PageUtils(page);
+
+    }
+
 }

@@ -16,6 +16,7 @@ import com.zjx.courese.course.service.CategoriesService;
 import com.zjx.courese.course.service.CoursesService;
 import com.zjx.courese.user.entity.UsersEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +38,7 @@ import com.zjx.common.utils.R;
  * @date 2023-10-19 19:53:44
  */
 @RestController
+@RefreshScope
 @RequestMapping("course/coursesubscriptions")
 public class CourseSubscriptionsController {
     @Autowired
@@ -88,6 +90,18 @@ public class CourseSubscriptionsController {
         return R.ok().put("page",page);
     }
 
+
+    //查询课程的用户
+    @RequestMapping("courseUser/{courseId}")
+    public R courseUser(@PathVariable("courseId") Integer courseId,
+            @RequestParam Map<String,Object> params){
+        System.out.println(params);
+        PageUtils page = courseSubscriptionsService.queryCourseUser(params,courseId);
+
+        List<CourseSubscriptionsEntity> list = (List<CourseSubscriptionsEntity>) page.getList();
+
+        return R.ok().put("page",page);
+    }
 
     /**
      * 列表

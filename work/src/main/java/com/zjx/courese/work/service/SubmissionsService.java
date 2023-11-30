@@ -16,5 +16,7 @@ import java.util.Map;
 public interface SubmissionsService extends IService<SubmissionsEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    PageUtils querySubAss(Map<String, Object> params, Integer assignmentId);
 }
 

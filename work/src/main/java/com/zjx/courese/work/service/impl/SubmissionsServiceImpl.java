@@ -25,5 +25,14 @@ public class SubmissionsServiceImpl extends ServiceImpl<SubmissionsDao, Submissi
 
         return new PageUtils(page);
     }
+    public PageUtils querySubAss(Map<String, Object> params,Integer assignmentId) {
 
+
+        IPage<SubmissionsEntity> page = this.page(
+                new Query<SubmissionsEntity>().getPage(params),
+                new QueryWrapper<SubmissionsEntity>()
+                        .eq("assignment_id", assignmentId)
+        );
+        return new PageUtils(page);
+    }
 }
